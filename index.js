@@ -10,7 +10,9 @@ const { createDecipher } = require("crypto");
     profile: { managed_default_content_settings: { geolocation: 2 } },
   });
   options.addArguments("--disable-infobars");
-  options.addArguments("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
+  options.addArguments(
+    "--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1"
+  );
   const driver = new webdriver.Builder()
     .withCapabilities(webdriver.Capabilities.chrome())
     .build();
@@ -20,59 +22,65 @@ const { createDecipher } = require("crypto");
   await driver
     .findElement(webdriver.By.id("email"))
     .sendKeys("tunguyenminh12369@gmail.com");
-  await driver.findElement(webdriver.By.id("pass")).sendKeys("220699a");
-  await driver.findElement(webdriver.By.xpath("/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div/div[1]/form/div[2]/button")).submit();
+  await driver.findElement(webdriver.By.id("pass")).sendKeys("tunguyen");
+  await driver
+    .findElement(
+      webdriver.By.xpath(
+        "/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div/div[1]/form/div[2]/button"
+      )
+    )
+    .submit();
   await driver.sleep(5000);
-  // login by cookie 
+  // login by cookie
   // const cookie = "cookie: datr=4lQWYhR1tdiqvypd6il3zEOX; sb=4lQWYiNQ2RWwvjrYYFHOPOV7; m_pixel_ratio=1; locale=vi_VN; c_user=100013017486715; xs=16%3ACqRwPme1h8s4_A%3A2%3A1645630921%3A-1%3A12649; wd=1348x924; fr=0MTRaslsTkKdxWY9J.AWXF6BqU4VWdEtmlcFye3vljiuc.BiFlTi.7Y.AAA.0.0.BiFlXM.AWUbk3a7XjY"
   // let script = 'javascript:void(function(){ function setCookie(t) { var list = t.split("; "); console.log(list); for (var i = list.length - 1; i >= 0; i--) { var cname = list[i].split("=")[0]; var cvalue = list[i].split("=")[1]; var d = new Date(); d.setTime(d.getTime() + (7*24*60*60*1000)); var expires = ";domain=.facebook.com;expires="+ d.toUTCString(); document.cookie = cname + "=" + cvalue + "; " + expires; } } function hex2a(hex) { var str = ""; for (var i = 0; i < hex.length; i += 2) { var v = parseInt(hex.substr(i, 2), 16); if (v) str += String.fromCharCode(v); } return str; } setCookie("' + cookie + '"); location.href = "https://facebook.com"; })();'
   // driver.executeScript(script)
 
-  
   // await driver.findElement(webdriver.By.xpath("/html/body/div[1]/div/div[2]/div[1]/div/div[2]/div/div[3]/form/div[5]/div[1]/button")).click();
 
   // lấy bài viết thay link
   await driver.get(
-   "https://m.facebook.com/beatvn.network/photos/a.1859759174341435/3222731854710820"
+    "https://m.facebook.com/beatvn.network/photos/a.1859759174341435/3222731854710820"
   );
-  await driver.sleep(7000);
+  // await driver.sleep(7000);
   // ấn màn hình tắt thông báo
   // await driver.findElement(webdriver.By.xpath("/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div/div/div[1]/i")).click()
   // await driver.findElement(webdriver.By.xpath("/html/body/div[5]")).click();
   await driver.sleep(2000);
-  let index = 0
-  while (true) {
-    await driver.sleep(2000);
-    // thay xpath cần check (optional)
-    const xPath =
-      "//*[contains(@id, 'see_next')]";
-    const loadMoreComment = await driver.findElement(webdriver.By.xpath(xPath));
-    driver.executeScript("arguments[0].scrollIntoView();", loadMoreComment);
-    await driver.findElement(webdriver.By.xpath(xPath)).click();
-    await driver.sleep(1000);
-    // const closeButton = await driver.findElement(webdriver.By.id("popup_xout"))
-    // if(closeButton)
-    //   closeButton.click()
-    // check đã lấy hết comment
+  let index = 0;
+  // while (true) {
+  //   await driver.sleep(2000);
+  //   // thay xpath cần check (optional)
+  //   const xPath =
+  //     "//*[contains(@id, 'see_next')]";
 
-    // if (loadMoreComment){
-    //     loadMoreComment[0].click()
-    //   }
-    // else{break}
-    let comments = await driver.findElements(
-      webdriver.By.className(
-        "_333v"
-      )
-    )
-    
-    try {
-      // thay xpath cần check (optional)
-      if (comments.length < index) break
-    } catch (e) {
-      continue;
-    }
-    index++
-  }
+  //   const loadMoreComment = await driver.findElement(webdriver.By.xpath(xPath));
+  //   driver.executeScript("arguments[0].scrollIntoView();", loadMoreComment);
+  //   await driver.findElement(webdriver.By.xpath(xPath)).click();
+  //   await driver.sleep(1000);
+  //   // const closeButton = await driver.findElement(webdriver.By.id("popup_xout"))
+  //   // if(closeButton)
+  //   //   closeButton.click()
+  //   // check đã lấy hết comment
+
+  //   // if (loadMoreComment){
+  //   //     loadMoreComment[0].click()
+  //   //   }
+  //   // else{break}
+  //   // let comments = await driver.findElements(
+  //   //   webdriver.By.className(
+  //   //     "_333v"
+  //   //   )
+  //   // )
+
+  //   try {
+  //     // thay xpath cần check (optional)
+  //     if (comments.length < index) break
+  //   } catch (e) {
+  //     continue;
+  //   }
+  //   index++
+  // }
 
   // lấy comments
   // const comments = await driver.findElements(
@@ -80,30 +88,29 @@ const { createDecipher } = require("crypto");
   //     "/html/body/div[1]/div/div[4]/div/div[1]/div/div/div/div[4]/div/div/div/div[5]/div"
   //   )
   // );
-  const comments = await driver.findElements(
-    webdriver.By.className(
-      "_333v"
-    )
-  )
+  const comments = await driver.findElements(webdriver.By.className("_2b06"));
   let commentTxt = "";
+  let contentTxt = ""
+
   await Promise.all(
     comments.map(async (comment) => {
       const username = await comment
-      
-        .findElement(
-          webdriver.By.className(
-            "_2b05"
-          )
-        )
+        .findElement(webdriver.By.className("_2b05"))
         .getText();
-      const content = await comment
-      .findElement(webdriver.By.xpath("/html/body/div[1]/div/div[4]/div/div[1]/div/div/div/div[4]/div/div/div/div[5]/div[1]/div[2]/div[1]/div[2]"))
-        .getText();
-
-      commentTxt += `${username}: ${content}\n`;
+      const content = await driver.findElements(
+        webdriver.By.xpath("//*[@data-sigil='comment-body']")
+      );
+      content.map(async (x) => {
+        const contentText = await x.getText();
+        console.log("contentText", contentText);
+        
+      });
+      // commentTxt += `${username}: ${contentText}\n`;
+      commentTxt += `${username}: ${contentTxt}\n`
       console.log(commentTxt)
     })
   );
+
   await fs.promises.writeFile(`${Date.now()}.txt`, commentTxt);
   await driver.quit();
 })();
