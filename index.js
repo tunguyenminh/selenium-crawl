@@ -47,67 +47,35 @@ const { createDecipher } = require("crypto");
   // await driver.findElement(webdriver.By.xpath("/html/body/div[1]/div/div[3]/div[1]/div/div/div[2]/div/div/div[1]/i")).click()
   // await driver.findElement(webdriver.By.xpath("/html/body/div[5]")).click();
   await driver.sleep(2000);
-  let index = 0;
-  // while (true) {
-  //   await driver.sleep(2000);
-  //   // thay xpath cần check (optional)
-  //   const xPath =
-  //     "//*[contains(@id, 'see_next')]";
+  let commentLength = 0;
 
-  //   const loadMoreComment = await driver.findElement(webdriver.By.xpath(xPath));
-  //   driver.executeScript("arguments[0].scrollIntoView();", loadMoreComment);
-  //   await driver.findElement(webdriver.By.xpath(xPath)).click();
-  //   await driver.sleep(1000);
-  //   // const closeButton = await driver.findElement(webdriver.By.id("popup_xout"))
-  //   // if(closeButton)
-  //   //   closeButton.click()
-  //   // check đã lấy hết comment
-
-  //   // if (loadMoreComment){
-  //   //     loadMoreComment[0].click()
-  //   //   }
-  //   // else{break}
-  //   // let comments = await driver.findElements(
-  //   //   webdriver.By.className(
-  //   //     "_333v"
-  //   //   )
-  //   // )
-
-  //   try {
-  //     // thay xpath cần check (optional)
-  //     if (comments.length < index) break
-  //   } catch (e) {
-  //     continue;
-  //   }
-  //   index++
-  // }
+  while (true) {
+    await driver.sleep(2000);
+    await driver
+      .findElement(webdriver.By.id("see_next_3222731944710811"))
+      .click();
+    const commentsGot = await driver.findElements(
+      webdriver.By.className("_2b06")
+    );
+    if (commentLength === commentsGot.length) break;
+    commentLength = commentsGot.length;
+  }
 
   // lấy comments
-  // const comments = await driver.findElements(
-  //   webdriver.By.xpath(
-  //     "/html/body/div[1]/div/div[4]/div/div[1]/div/div/div/div[4]/div/div/div/div[5]/div"
-  //   )
-  // );
   const comments = await driver.findElements(webdriver.By.className("_2b06"));
   let commentTxt = "";
-  let contentTxt = ""
 
   await Promise.all(
     comments.map(async (comment) => {
       const username = await comment
         .findElement(webdriver.By.className("_2b05"))
         .getText();
-      const content = await driver.findElements(
-        webdriver.By.xpath("//*[@data-sigil='comment-body']")
-      );
-      content.map(async (x) => {
-        const contentText = await x.getText();
-        console.log("contentText", contentText);
-        
-      });
-      // commentTxt += `${username}: ${contentText}\n`;
-      commentTxt += `${username}: ${contentTxt}\n`
-      console.log(commentTxt)
+      const content = await comment
+        .findElement(
+          webdriver.By.css("div._2b06 div[data-sigil='comment-body']")
+        )
+        .getText();
+      commentTxt += `${username}: ${content}\n`;
     })
   );
 
