@@ -21,8 +21,8 @@ const { createDecipher } = require("crypto");
   await driver.get("https://facebook.com");
   await driver
     .findElement(webdriver.By.id("email"))
-    .sendKeys("tunguyenminh12369@gmail.com");
-  await driver.findElement(webdriver.By.id("pass")).sendKeys("tunguyen");
+    .sendKeys("");
+  await driver.findElement(webdriver.By.id("pass")).sendKeys("");
   await driver
     .findElement(
       webdriver.By.xpath(
